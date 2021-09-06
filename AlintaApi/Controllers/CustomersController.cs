@@ -115,13 +115,13 @@ namespace AlintaApi.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(BadRequestObjectResult))]
-        public async Task<IActionResult> CreateCustomer([FromForm]Customer Customer)
+        public async Task<IActionResult> CreateCustomer([FromBody] Customer Customer)
         {
             try
             {
-                var result = await _CustomerService.AddCustomerAsync(Customer);
-                if (result != null)
-                    return Ok(result);
+                var entity = await _CustomerService.AddCustomerAsync(Customer);
+                if (entity != null)
+                    return new ObjectResult(entity) { StatusCode = StatusCodes.Status201Created };
                 return NotFound();
             }
             catch (AggregateException aggEx)
