@@ -135,9 +135,10 @@ namespace AlintaApi.Tests
 
             //act
             var result = await _controller.CreateCustomer(Customer);
-
+            var statuscode = result.GetType().GetProperty("StatusCode").GetValue(result, null).ToString();
             //assert
-            Assert.IsInstanceOf<OkObjectResult>(result);            
+            Assert.IsInstanceOf<ObjectResult>(result);
+            Assert.IsTrue(statuscode == "201");
         }
 
         [Test]
